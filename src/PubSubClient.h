@@ -78,7 +78,7 @@
 
 #if defined(ESP8266) || defined(ESP32)
 #include <functional>
-#define MQTT_CALLBACK_SIGNATURE std::function<void(char*, uint8_t*, unsigned int)> callback
+#define MQTT_CALLBACK_SIGNATURE std::function<void(char*, uint8_t*, unsigned int, void* callbackObject)> callback
 #else
 #define MQTT_CALLBACK_SIGNATURE void (*callback)(char*, uint8_t*, unsigned int)
 #endif
@@ -112,6 +112,7 @@ private:
    uint16_t port;
    Stream* stream;
    int _state;
+   void* _callbackObject;
 public:
    PubSubClient();
    PubSubClient(Client& client);
@@ -138,6 +139,7 @@ public:
    PubSubClient& setStream(Stream& stream);
    PubSubClient& setKeepAlive(uint16_t keepAlive);
    PubSubClient& setSocketTimeout(uint16_t timeout);
+   PubSubClient& setCallbackObject(void* callbackObject)
 
    boolean setBufferSize(uint16_t size);
    uint16_t getBufferSize();

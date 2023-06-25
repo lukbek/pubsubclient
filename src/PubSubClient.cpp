@@ -402,7 +402,7 @@ boolean PubSubClient::loop() {
                         if ((this->buffer[0]&0x06) == MQTTQOS1) {
                             msgId = (this->buffer[llen+3+tl]<<8)+this->buffer[llen+3+tl+1];
                             payload = this->buffer+llen+3+tl+2;
-                            callback(topic,payload,len-llen-3-tl-2);
+                            callback(topic,payload,len-llen-3-tl-2, _callbackObject);
 
                             this->buffer[0] = MQTTPUBACK;
                             this->buffer[1] = 2;
@@ -413,7 +413,7 @@ boolean PubSubClient::loop() {
 
                         } else {
                             payload = this->buffer+llen+3+tl;
-                            callback(topic,payload,len-llen-3-tl);
+                            callback(topic,payload,len-llen-3-tl, _callbackObject);
                         }
                     }
                 } else if (type == MQTTPINGREQ) {
@@ -709,6 +709,11 @@ PubSubClient& PubSubClient::setServer(IPAddress ip, uint16_t port) {
     this->ip = ip;
     this->port = port;
     this->domain = NULL;
+    return *this;
+}
+
+PubSubClient& PubSubClient::setCallbackObject(void* _callbackObject) {
+    this->_callbackObject = _callbackObject;
     return *this;
 }
 
