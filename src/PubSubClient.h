@@ -139,7 +139,7 @@ public:
    PubSubClient& setStream(Stream& stream);
    PubSubClient& setKeepAlive(uint16_t keepAlive);
    PubSubClient& setSocketTimeout(uint16_t timeout);
-   PubSubClient& setCallbackObject(void* callbackObject)
+   PubSubClient& setCallbackObject(void* callbackObject);
 
    boolean setBufferSize(uint16_t size);
    uint16_t getBufferSize();
